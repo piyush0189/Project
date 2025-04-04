@@ -12,7 +12,9 @@
           event.stopPropagation()
         }
   
-        form.classList.add('was-validated')
-      }, false)
-    })
-  })()
+        form.classList.add('was-validated');
+      },
+       false
+      );
+    });
+  })();
