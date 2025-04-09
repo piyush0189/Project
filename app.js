@@ -11,8 +11,9 @@ const passport = require("passport");
 const LocalStrategy = require("passport-local");
 const User = require("./models/user.js");
 
-const listings = require("./routes/listing.js");
-const reviews = require("./routes/review.js");
+const listingRouter = require("./routes/listing.js");
+const reviewRouter = require("./routes/review.js");
+const userRouter = require("./routes/user.js");
 
 main()
     .then(() => {
@@ -64,8 +65,19 @@ app.use((req, res, next) => {
     next();
 });
 
-app.use("/listings", listings);
-app.use("/listings/:id/reviews",reviews);
+app.get("/demouser", async (req, res) => {
+    let fakeUser = new User({
+        email: "student@gmail.com",
+        username: "delta-student",
+    });
+
+    let registeredUser = await User.register(fakeUser, "helloworld");
+    res.send(registeredUser);
+});
+
+app.use("/listings", listingRouter);
+app.use("/listings/:id/reviews",reviewRouter);
+app.use("/", userRouter);
 
 
 app.all("*", (req, res, next) => {
